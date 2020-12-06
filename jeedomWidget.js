@@ -220,18 +220,6 @@ async function createWidget() {
     persistObject(fm, CONFIGURATION, pathToConfig);
   }
 
-  const light = await fetchData('cmd', 4992);
-  const window = await fetchData('cmd', 4977);
-  const door = await fetchData('cmd', 5213);
-  const presence = await fetchData('cmd', 5257);
-  const modeValue = await fetchData('cmd', 51);
-  const alarmEnable = await fetchData('cmd', 1094) === 1 ? true : false;
-  const alarmMode = await fetchData('cmd', 1096);
-  const txCO2 = await fetchData('cmd', 3337);
-  const isCO2Bad = txCO2 < 500 ? true : txCO2 < 1000 ? 'medium' : false;
-  const thermostat = await fetchData('cmd', 3982);
-
-
   let widget = new ListWidget()
   handleSettingOfBackgroundColor(widget);
 
