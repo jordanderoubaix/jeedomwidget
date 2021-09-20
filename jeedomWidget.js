@@ -367,14 +367,18 @@ function useCredentialsFromWidgetParameter(givenParameter) {
 
 async function getJeedomLogo(fm) {
   let path = getFilePath(HB_LOGO_FILE_NAME, fm);
-  if (fm.fileExists(path)) {
-    return fm.readImage(path);
-  } else {
-    // logo did not exist -> download it and save it for next time the widget runs
-    const logo = await loadImage(CONFIGURATION.logoUrl);
-    fm.writeImage(path, logo);
-    return logo;
-  }
+    if (fm.fileExists(path)) {
+        const fileDownloaded = await fm.isFileDownloaded(path);
+        if (!fileDownloaded) {
+            await fm.downloadFileFromiCloud(path);
+        }
+        return fm.readImage(path);
+    } else {
+        // logo did not exist -> download it and save it for next time the widget runs
+        const logo = await loadImage(CONFIGURATION.logoUrl);
+        fm.writeImage(path, logo);
+        return logo;
+    }
 }
 
 async function loadImage(imgUrl) {
